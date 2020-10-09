@@ -1,0 +1,47 @@
+{% set name = "tensorflow-datasets" %}
+{% set version = "4.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 853c930ddb46b9aee01319a2bd77acfadc67beaf72215b8086705f25766a9a83
+
+build:
+  noarch: python
+  number: 0
+  entry_points:
+    - tfds = tensorflow_datasets.scripts.cli.main:launch_cli
+  script: "{{ PYTHON }} -m pip install . -vv"
+  skip: True # [py<36]
+
+requirements:
+  host:
+    - python >=3.6
+    - pip
+  run:
+    - python >=3.6
+
+test:
+  imports:
+    - tensorflow_datasets
+  commands:
+    - tfds --help
+
+about:
+  home: https://github.com/tensorflow/datasets
+  license: Apache
+  license_family: APACHE
+  license_file: LICENSE
+  summary: 'TensorFlow Datasets is a library of datasets ready to use with TensorFlow.'
+  description: |
+    TensorFlow Datasets is a collection of datasets ready to use, with TensorFlow or other Python ML frameworks, such as Jax.
+    All datasets are exposed as `tf.data.Datasets`, enabling easy-to-use and high-performance input pipelines.'
+  dev_url: https://www.tensorflow.org/datasets/overview
+  doc_url: https://github.com/tensorflow/datasets
+
+extra:
+  recipe-maintainers:
+    - vijayphoenix
